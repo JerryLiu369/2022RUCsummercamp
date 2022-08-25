@@ -30,6 +30,21 @@ public:
         D = Face(5);
     }
 
+    Cube(const vector<vector<int>> &color)
+    {
+        if (color.size()==6&&color[0].size()==9)
+        {
+            //B,U,F,D,R,L
+            F=Face(color[2]);
+            B=Face(color[0]);
+            L=Face(color[5]);
+            R=Face(color[4]);
+            U=Face(color[1]);
+            D=Face(color[3]);
+        }
+        else throw -1;
+    }
+
     void reset()
     {
         F = Face(0);
@@ -131,7 +146,7 @@ public:
                 L.set_right(D.up());
                 D.set_up(vec_reverse(R.left()));
                 R.set_left(U.down());
-                U.set_down(vec_reverse(vec_reverse(temp)));
+                U.set_down(vec_reverse(temp));
             }
         }
         else if (option == 'b' || option == 'B')
@@ -143,18 +158,39 @@ public:
                 temp = L.left();
                 L.set_left(D.down());
                 D.set_down(vec_reverse(R.right()));
-                R.set_right(B.up());
-                B.set_up(vec_reverse(temp));
+                R.set_right(U.up());
+                U.set_up(vec_reverse(temp));
             }
             else
             {
                 B.rotate();
                 vector<int> temp(3, 0);
-                temp = B.up();
-                B.set_up(R.right());
+                temp = U.up();
+                U.set_up(R.right());
                 R.set_right(vec_reverse(D.down()));
                 D.set_down(L.left());
                 L.set_left(vec_reverse(temp));
+            }
+        }
+        else if (option == 's' || option == 'S')
+        {
+            if (reverse)
+            {
+                vector<int> temp(3, 0);
+                temp=U.horizontal();
+                U.set_horizontal(R.vertical());
+                R.set_vertical(vec_reverse(D.horizontal()));
+                D.set_horizontal(L.vertical());
+                L.set_vertical(vec_reverse(temp));
+            }
+            else
+            {
+                vector<int> temp(3, 0);
+                temp=L.vertical();
+                L.set_vertical(D.horizontal());
+                D.set_horizontal(vec_reverse(R.vertical()));
+                R.set_vertical(U.horizontal());
+                U.set_horizontal(vec_reverse(temp));
             }
         }
         else if (option == 'l' || option == 'L')
@@ -203,6 +239,27 @@ public:
                 D.set_right(temp);
             }
         }
+        else if (option == 'm' || option == 'M')
+        {
+            if (reverse)
+            {
+                vector<int> temp(3, 0);
+                temp=B.vertical();
+                B.set_vertical(U.vertical());
+                U.set_vertical(F.vertical());
+                F.set_vertical(D.vertical());
+                D.set_vertical(temp);
+            }
+            else
+            {
+                vector<int> temp(3, 0);
+                temp=D.vertical();
+                D.set_vertical(F.vertical());
+                F.set_vertical(U.vertical());
+                U.set_vertical(B.vertical());
+                B.set_vertical(temp);
+            }
+        }
         else if (option == 'u' || option == 'U')
         {
             if (reverse)
@@ -247,6 +304,27 @@ public:
                 F.set_down(L.down());
                 L.set_down(vec_reverse(B.up()));
                 B.set_up(vec_reverse(temp));
+            }
+        }
+        else if (option == 'e' || option == 'E')
+        {
+            if (reverse)
+            {
+                vector<int> temp(3, 0);
+                temp=B.horizontal();
+                B.set_horizontal(vec_reverse(L.horizontal()));
+                L.set_horizontal(F.horizontal());
+                F.set_horizontal(R.horizontal());
+                R.set_horizontal(vec_reverse(temp));
+            }
+            else
+            {
+                vector<int> temp(3, 0);
+                temp=R.horizontal();
+                R.set_horizontal(F.horizontal());
+                F.set_horizontal(L.horizontal());
+                L.set_horizontal(vec_reverse(B.horizontal()));
+                B.set_horizontal(vec_reverse(temp));
             }
         }
         else

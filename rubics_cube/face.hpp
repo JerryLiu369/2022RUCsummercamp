@@ -48,26 +48,28 @@ public:
     inline void rotate()
     {
         int temp = data[3];
-        data[3] = data[6];
-        data[6] = data[7];
-        data[7] = data[8];
-        data[8] = data[5];
-        data[5] = data[2];
-        data[2] = data[1];
-        data[1] = data[0];
-        data[0] = temp;
+        data[3]=data[7];
+        data[7]=data[5];
+        data[5]=data[1];
+        data[1]=temp;
+        temp=data[0];
+        data[0]=data[6];
+        data[6]=data[8];
+        data[8]=data[2];
+        data[2]=temp;
     }
     inline void rotate_re()
     {
         int temp = data[0];
-        data[0] = data[1];
-        data[1] = data[2];
-        data[2] = data[5];
-        data[5] = data[8];
-        data[8] = data[7];
-        data[7] = data[6];
-        data[6] = data[3];
-        data[3] = temp;
+        data[0]=data[2];
+        data[2]=data[8];
+        data[8]=data[6];
+        data[6]=temp;
+        temp=data[3];
+        data[3]=data[1];
+        data[1]=data[5];
+        data[5]=data[7];
+        data[7]=temp;
     }
     
     bool is_num(const int &num)
@@ -98,7 +100,7 @@ public:
     {
         return vector<int>{data[0], data[1], data[2]};
     } // 0,1,2
-    inline vector<int> horizental()
+    inline vector<int> horizontal()
     {
         return vector<int>{data[3], data[4], data[5]};
     } // 3,4,5
@@ -131,7 +133,7 @@ public:
         data[1] = vec[1];
         data[2] = vec[2];
     }
-    inline void set_horizental(const vector<int> &vec)
+    inline void set_horizontal(const vector<int> &vec)
     {
         data[3] = vec[0];
         data[4] = vec[1];
