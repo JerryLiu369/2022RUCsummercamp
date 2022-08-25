@@ -9,7 +9,7 @@ using std::queue;
 /*
 与作业输入输出的对应：
 本魔方类初始化采用F,B,L,R,U,D
-作业读入顺序则变成U,F,D,B,R,L   ,且B的朝向不同
+作业读入顺序则变成U,F,D,B,R,L
 
 动作的对应:
 0+  l
@@ -44,12 +44,6 @@ vector<vector<int>> input()
             cin >> converter;
             temp[j] = color_dict[converter];
         }
-        if (i == 3)
-        {
-            swap_int(temp[0], temp[6]);
-            swap_int(temp[1], temp[7]);
-            swap_int(temp[2], temp[8]);
-        }
         init_vec[seq_dict[i]] = temp;
     }
     return init_vec;
@@ -58,7 +52,6 @@ vector<vector<int>> input()
 int main()
 {
     Cube origin(input());
-    origin.show_shape();
     vector<int> options{0, 1, 2, 3, 4, 5, 6, 7, 8, -1, -2, -3, -4, -5, -6, -7, -8, -9};
     map<int, pair<char, bool>> trans{{0, pair<char, bool>{'l', false}},
                                      {1, pair<char, bool>{'m', false}},
@@ -86,7 +79,6 @@ int main()
     {
         flag = 1;
     }
-    int count = 0;
     while (true)
     {
         if (flag == 1)
@@ -97,7 +89,7 @@ int main()
         se_q.pop();
         for (int i = -9; i < 9; i++)
         {
-            if (now.second.size() != 0 && i + now.second[now.second.size() - 1] == -1)
+            if (!now.second.empty() && i + now.second[now.second.size() - 1] == -1)
             {
                 continue;
             }
@@ -108,23 +100,28 @@ int main()
                 flag = 1;
                 vector<int> temp_vec = now.second;
                 temp_vec.emplace_back(i);
-                res=temp_vec;
+                res = temp_vec;
                 break;
             }
             vector<int> temp_vec = now.second;
             temp_vec.emplace_back(i);
             se_q.push({temp_cube, temp_vec});
-            if (count % 10000 == 0)
-                cout << count << endl;
-            count++;
         }
     }
-    cout << "done!" << endl;
     for (auto &&i : res)
     {
-        cout<<i<<" ";
+        if (i > 0)
+            cout << i << " ";
+        else if (i == 0)
+            cout << "+0"
+                 << " ";
+        else if (i == -1)
+            cout << "-0"
+                 << " ";
+        else
+            cout << i + 1 << " ";
     }
-    cout<<endl;
+    cout << endl;
 
     return 0;
 }

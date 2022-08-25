@@ -1,4 +1,4 @@
-test: test.cpp
-	g++ test.cpp -o test
+main: main.cpp
+	g++ main.cpp -o main
 clean:
-	-rm test
+	-rm main

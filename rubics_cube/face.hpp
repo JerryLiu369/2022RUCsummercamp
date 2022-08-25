@@ -19,7 +19,7 @@ public:
         data = vector<int>(9, num);
     }
 
-    Face(const vector<int> &data):data(data){}
+    Face(const vector<int> &data) : data(data) {}
 
     ~Face()
     {
@@ -48,33 +48,33 @@ public:
     inline void rotate()
     {
         int temp = data[3];
-        data[3]=data[7];
-        data[7]=data[5];
-        data[5]=data[1];
-        data[1]=temp;
-        temp=data[0];
-        data[0]=data[6];
-        data[6]=data[8];
-        data[8]=data[2];
-        data[2]=temp;
+        data[3] = data[7];
+        data[7] = data[5];
+        data[5] = data[1];
+        data[1] = temp;
+        temp = data[0];
+        data[0] = data[6];
+        data[6] = data[8];
+        data[8] = data[2];
+        data[2] = temp;
     }
     inline void rotate_re()
     {
         int temp = data[0];
-        data[0]=data[2];
-        data[2]=data[8];
-        data[8]=data[6];
-        data[6]=temp;
-        temp=data[3];
-        data[3]=data[1];
-        data[1]=data[5];
-        data[5]=data[7];
-        data[7]=temp;
+        data[0] = data[2];
+        data[2] = data[8];
+        data[8] = data[6];
+        data[6] = temp;
+        temp = data[3];
+        data[3] = data[1];
+        data[1] = data[5];
+        data[5] = data[7];
+        data[7] = temp;
     }
-    
+
     inline bool is_same()
     {
-        int num=data[0];
+        int num = data[4];
         for (auto &&i : data)
         {
             if (i != num)
