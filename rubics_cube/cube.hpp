@@ -1,13 +1,14 @@
 #include "face.hpp"
+using std::pair;
 class Cube
 {
     /*
-    F=绿=0
-    B=蓝=1
-    L=红=2
-    R=橙=3
-    U=黄=4
-    D=白=5
+    F=0
+    B=1
+    L=2
+    R=3
+    U=4
+    D=5
     方向规定：
         从初始状态整体反转一次的朝向，即做一次x/y/z(或')。对于B，为做x2的朝向
         即以下图展开的朝向：
@@ -32,17 +33,17 @@ public:
 
     Cube(const vector<vector<int>> &color)
     {
-        if (color.size()==6&&color[0].size()==9)
+        if (color.size() == 6 && color[0].size() == 9)
         {
-            //B,U,F,D,R,L
-            F=Face(color[2]);
-            B=Face(color[0]);
-            L=Face(color[5]);
-            R=Face(color[4]);
-            U=Face(color[1]);
-            D=Face(color[3]);
+            F = Face(color[0]);
+            B = Face(color[1]);
+            L = Face(color[2]);
+            R = Face(color[3]);
+            U = Face(color[4]);
+            D = Face(color[5]);
         }
-        else throw -1;
+        else
+            throw -1;
     }
 
     void reset()
@@ -119,12 +120,12 @@ public:
         cout << endl;
     }
 
-    bool is_fine()
+    inline bool is_fine()
     {
-        return F.is_num(0) && B.is_num(1) && L.is_num(2) && R.is_num(3) && U.is_num(4) && D.is_num(5);
+        return F.is_same() && B.is_same() && L.is_same() && R.is_same() && U.is_same() && D.is_same();
     }
 
-    void rotate(const char &option, bool reverse)
+    inline void rotate(const char &option, bool reverse)
     {
         if (option == 'f' || option == 'F')
         {
@@ -177,7 +178,7 @@ public:
             if (reverse)
             {
                 vector<int> temp(3, 0);
-                temp=U.horizontal();
+                temp = U.horizontal();
                 U.set_horizontal(R.vertical());
                 R.set_vertical(vec_reverse(D.horizontal()));
                 D.set_horizontal(L.vertical());
@@ -186,7 +187,7 @@ public:
             else
             {
                 vector<int> temp(3, 0);
-                temp=L.vertical();
+                temp = L.vertical();
                 L.set_vertical(D.horizontal());
                 D.set_horizontal(vec_reverse(R.vertical()));
                 R.set_vertical(U.horizontal());
@@ -244,7 +245,7 @@ public:
             if (reverse)
             {
                 vector<int> temp(3, 0);
-                temp=B.vertical();
+                temp = B.vertical();
                 B.set_vertical(U.vertical());
                 U.set_vertical(F.vertical());
                 F.set_vertical(D.vertical());
@@ -253,7 +254,7 @@ public:
             else
             {
                 vector<int> temp(3, 0);
-                temp=D.vertical();
+                temp = D.vertical();
                 D.set_vertical(F.vertical());
                 F.set_vertical(U.vertical());
                 U.set_vertical(B.vertical());
@@ -311,7 +312,7 @@ public:
             if (reverse)
             {
                 vector<int> temp(3, 0);
-                temp=B.horizontal();
+                temp = B.horizontal();
                 B.set_horizontal(vec_reverse(L.horizontal()));
                 L.set_horizontal(F.horizontal());
                 F.set_horizontal(R.horizontal());
@@ -320,7 +321,7 @@ public:
             else
             {
                 vector<int> temp(3, 0);
-                temp=R.horizontal();
+                temp = R.horizontal();
                 R.set_horizontal(F.horizontal());
                 F.set_horizontal(L.horizontal());
                 L.set_horizontal(vec_reverse(B.horizontal()));
@@ -332,5 +333,10 @@ public:
             cout << "Wrong Operation!" << endl;
             throw -1;
         }
+    }
+
+    inline void rotate(pair<char, bool> option)
+    {
+        rotate(option.first, option.second);
     }
 };

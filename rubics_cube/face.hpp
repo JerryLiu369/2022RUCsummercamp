@@ -72,8 +72,9 @@ public:
         data[7]=temp;
     }
     
-    bool is_num(const int &num)
+    inline bool is_same()
     {
+        int num=data[0];
         for (auto &&i : data)
         {
             if (i != num)
