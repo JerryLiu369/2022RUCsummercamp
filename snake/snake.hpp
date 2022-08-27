@@ -19,7 +19,7 @@ class Snake
 {
 private:
     pair<int, int> head{1, 1};
-    vector<int> map_input = vector<int>((WIDTH + 2) * (LENGTH + 2), 0);
+    vector<int> map_now = vector<int>((WIDTH + 2) * (LENGTH + 2), 0);
 
 public:
     Snake(){};
@@ -27,7 +27,7 @@ public:
     Snake(const pair<pair<int, int>, vector<int>> &stdinput)
     {
         head = stdinput.first;
-        map_input = stdinput.second;
+        map_now = stdinput.second;
     }
 
     void show()
@@ -39,7 +39,7 @@ public:
         {
             for (int j = 0; j < LENGTH + 2; j++)
             {
-                cout << std::setw(3) << map_input[xy2num(i, j)];
+                cout << std::setw(3) << map_now[xy2num(i, j)];
             }
             cout << endl;
         }
@@ -53,14 +53,14 @@ public:
         for (int j = 0; j < 4; j++)
         {
         pair<int, int> move = ref[j];
-        if(map_input[xy2num(head.first + move.first, head.second + move.second)] != BLOCKED)movable=1;
+        if(map_now[xy2num(head.first + move.first, head.second + move.second)] != BLOCKED)movable=1;
         }
         if(movable==0)return rand()%4;
         while (true)
         {
         int i = rand()%4;
         pair<int, int> move = ref[i];
-        if(map_input[xy2num(head.first + move.first, head.second + move.second)] != BLOCKED)
+        if(map_now[xy2num(head.first + move.first, head.second + move.second)] != BLOCKED)
         {
             return i;
         }
