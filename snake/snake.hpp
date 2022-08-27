@@ -47,23 +47,15 @@ public:
 
     int decide()
     {
-        map<int, pair<int, int>> ref{{0, {0, -1}}, {1, {-1, 0}}, {2, {0, 1}}, {3, {1, 0}}};
-        srand((unsigned)time(NULL));
-        int movable=0;
-        for (int j = 0; j < 4; j++)
+        map<int, pair<int, int>> move_ref{{0, {0, -1}}, {1, {-1, 0}}, {2, {0, 1}}, {3, {1, 0}}};
+        vector<int> movable;
+        for (int i = 0; i < 4; i++)
         {
-        pair<int, int> move = ref[j];
-        if(map_now[xy2num(head.first + move.first, head.second + move.second)] != BLOCKED)movable=1;
-        }
-        if(movable==0)return rand()%4;
-        while (true)
-        {
-        int i = rand()%4;
-        pair<int, int> move = ref[i];
-        if(map_now[xy2num(head.first + move.first, head.second + move.second)] != BLOCKED)
-        {
-            return i;
-        }
+            pair<int,int> move=move_ref[i];
+            if (map_now[xy2num(head.first+1,head.second+1)])
+            {
+                
+            }
         }
     }
 };

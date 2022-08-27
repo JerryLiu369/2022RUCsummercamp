@@ -2,7 +2,6 @@
 int main()
 {
     Snake mysnake(my_stdinput());
-    mysnake.show();
-    cout << mysnake.decide() << endl;
+    cout << mysnake.decide();
     return 0;
 }
