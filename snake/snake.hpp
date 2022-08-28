@@ -1,4 +1,4 @@
-#include "mytools.hpp"
+#include "valuedpoint.hpp"
 #include <map>
 #include <iomanip>
 #include <algorithm>
@@ -17,6 +17,7 @@ A*寻路
 # 护盾附近两格微弱增益
 # 护盾立即使用，生效期间撞墙判定消失
 */
+
 class Snake
 {
 private:
@@ -26,6 +27,7 @@ private:
 
 public:
     Snake(){};
+
     Snake(const pair<pair<pair<int, int>, pair<int, int>>, vector<int>> &stdinput)
     {
         head = stdinput.first.first;
@@ -55,19 +57,22 @@ public:
         for (int i = 0; i < 4; i++)
         {
             pair<int, int> move = move_ref[i];
-            if (map_now[xy2num(head.first + move.first, head.second + move.second)] != BLOCKED || (!(head.first + move.first == sub_head.first && head.second + move.second == sub_head.second)))
+            if (map_now[xy2num(head.first + move.first, head.second + move.second)] != BLOCKED && (!(head.first + move.first == sub_head.first && head.second + move.second == sub_head.second)))
             {
                 movable.push_back(i);
             }
-            else if (map_now[xy2num(head.first + move.first, head.second + move.second)] > 0)
+            if (map_now[xy2num(head.first + move.first, head.second + move.second)] > 0)
                 return i;
         }
-        return 0;
+        pair<int, int> destination = find_destination();
+        return find_way(movable, destination);
+        srand((unsigned)time(NULL));
+        return rand() % 4;
     }
 
     pair<int, int> find_destination()
     {
-
+        priority_queue<ValuedPoint, vector<ValuedPoint>> choose_queue;
         for (int i = -5; i <= 5; i++)
         {
             for (int j = -5; j <= 5; j++)
@@ -79,14 +84,17 @@ public:
                 {
                     continue;
                 }
+                choose_queue.push(ValuedPoint(value_point(temp_point), temp_point));
             }
         }
+        ValuedPoint choice = choose_queue.top();
+        return choice.get_point();
     }
 
     float value_point(const pair<int, int> &point)
     {
-        int count_block;
-        float score;
+        int count_block = 0;
+        float score = 0;
         for (int i = -2; i <= 2; i++)
         {
             for (int j = -2; j <= 2; j++)
@@ -98,7 +106,7 @@ public:
                 count_block++;
                 int this_point = map_now[xy2num(point.first + i, point.second + j)];
                 if (this_point > 0)
-                    score += this_point;
+                    score += ((rand()%2+9)/10.0)*this_point;
                 else if (this_point == BLOCKED)
                     score -= 3;
                 else if ((this_point == -4) && ((abs(i) == 1) || (abs(j) == 1)))
@@ -107,11 +115,36 @@ public:
                     score += 1;
                 else if (this_point == -2)
                     score += 0;
-                else
+                else if (this_point == -1)
                     score += 1;
             }
         }
+        score-=0.1*(abs(point.first-head.first)+abs(point.second-head.second));
+        if (count_block == 0)
+            return 0;
         return score / count_block;
+    }
+
+    int find_way(const vector<int> &movable, const pair<int, int> &destination)
+    {
+        map<int, pair<int, int>> move_ref{{0, {0, -1}}, {1, {-1, 0}}, {2, {0, 1}}, {3, {1, 0}}};
+        vector<int> distances;
+        for (auto &&way : movable)
+        {
+            pair<int, int> move = move_ref[way];
+            distances.push_back(abs(head.first + move.first - destination.first) + abs(head.second + move.second - destination.second));
+        }
+        int min_dis = LENGTH + WIDTH;
+        int position;
+        for (int i = 0; i < int(movable.size()); i++)
+        {
+            if (distances[i] < min_dis)
+            {
+                min_dis = distances[i];
+                position = i;
+            }
+        }
+        return movable[position];
     }
 
     inline bool is_overflow(const pair<int, int> &point)
