@@ -21,9 +21,14 @@ int MY_ID = 2021201247;
 -4  其他蛇头
 -5  其他蛇身
 */
-inline int xy2num(int x, int y)
+inline int xy2num(const int &x, const int &y)
 {
     return x * (LENGTH + 2) + y;
+}
+
+inline int xy2num(const pair<int, int> &point)
+{
+    return point.first * (LENGTH + 2) + point.second;
 }
 
 inline vector<int> num2xy(int num)
@@ -31,9 +36,10 @@ inline vector<int> num2xy(int num)
     return vector<int>{num / (LENGTH + 2), num % (LENGTH + 2)};
 }
 
-pair<pair<int, int>, vector<int>> my_stdinput()
+pair<pair<pair<int, int>, pair<int, int>>, vector<int>> my_stdinput()
 {
-    pair<int, int> head{0, 0};
+    pair<int, int> head{1, 1};
+    pair<int, int> sub_head{1, 1};
     vector<int> map_input((WIDTH + 2) * (LENGTH + 2), 0);
     for (int i = 0; i < WIDTH + 2; i++)
     {
@@ -93,7 +99,9 @@ pair<pair<int, int>, vector<int>> my_stdinput()
         {
             map_input[xy2num(x + 1, y + 1)] = -3;
             head = pair<int, int>{x + 1, y + 1};
-            for (int j = 0; j < len - 1; j++)
+            cin >> x >> y;
+            sub_head = pair<int, int>{x + 1, y + 1};
+            for (int j = 0; j < len - 2; j++)
             {
                 cin >> x >> y;
             }
@@ -108,5 +116,5 @@ pair<pair<int, int>, vector<int>> my_stdinput()
             }
         }
     }
-    return pair<pair<int, int>, vector<int>>{head, map_input};
+    return pair<pair<pair<int, int>, pair<int, int>>, vector<int>>{{head, sub_head}, map_input};
 }
