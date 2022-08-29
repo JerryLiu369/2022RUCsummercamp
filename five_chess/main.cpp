@@ -1,7 +1,10 @@
 #include "situation.hpp"
+using std::cout;
 
 int main()
 {
-    Situation try_(my_input());
+    Situation now(my_input());
+    pair<int, int> res = now.decide();
+    cout << res.first << " " << res.second;
     return 0;
 }
