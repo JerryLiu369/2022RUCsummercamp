@@ -1,0 +1,1 @@
+主要类Situation，dicide()方法输出决策，value_situation()方法评估盘面
