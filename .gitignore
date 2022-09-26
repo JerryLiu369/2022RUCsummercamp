@@ -1,2 +1,7 @@
 *.exe
 *.txt
+*.doc*
+*.ppt*
+*.pdf
+allcode.cpp
+organize.py

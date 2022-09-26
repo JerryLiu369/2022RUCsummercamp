@@ -108,18 +108,17 @@ public:
                 if (this_point > 0)
                     score += ((rand()%2+9)/10.0)*this_point;
                 else if (this_point == BLOCKED)
-                    score -= 3;
+                    score -= 1;
                 else if ((this_point == -4) && ((abs(i) == 1) || (abs(j) == 1)))
                     score -= 5;
-                else if ((this_point == -4) && ((abs(i) == 2) || (abs(j) == 2)))
-                    score += 1;
                 else if (this_point == -2)
                     score += 0;
                 else if (this_point == -1)
                     score += 1;
             }
         }
-        score-=0.1*(abs(point.first-head.first)+abs(point.second-head.second));
+        score-=0.4*(abs(point.first-head.first)+abs(point.second-head.second));
+        score-=0.2*(abs(point.first-WIDTH/2)+abs(point.second-LENGTH/2));
         if (count_block == 0)
             return 0;
         return score / count_block;
